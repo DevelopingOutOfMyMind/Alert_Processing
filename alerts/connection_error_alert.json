@@ -1,0 +1,49 @@
+{
+  "schemaId": "azureMonitorCommonAlertSchema",
+  "data": {
+    "essentials": {
+      "alertId": "/subscriptions/12345678-1234-1234-1234-123456789012/resourceGroups/myResourceGroup/providers/Microsoft.Web/sites/myWebApp",
+      "alertRule": "ConnectionRefusedError",
+      "severity": "Sev3",
+      "signalType": "Metric",
+      "monitorCondition": "Fired",
+      "monitoringService": "Application Insights",
+      "alertTargetIDs": [
+        "/subscriptions/12345678-1234-1234-1234-123456789012/resourceGroups/myResourceGroup/providers/Microsoft.Web/sites/myWebApp"
+      ],
+      "originAlertId": "abcd1234-5678-90ef-ghij-klmnopqrstuv",
+      "firedDateTime": "2026-01-08T10:15:30Z",
+      "resolvedDateTime": "",
+      "description": "The web service is experiencing a 'Connection Refused' error. This may be due to firewall rules or port configuration.",
+      "essentialsVersion": "1.0"
+    },
+    "alertContext": {
+      "properties": {
+        "errorCode": "ECONNREFUSED",
+        "errorMessage": "Connection refused on port 443",
+        "sourceIP": "192.168.1.100",
+        "destinationIP": "203.0.113.10",
+        "protocol": "HTTPS",
+        "port": 443
+      },
+      "condition": {
+        "allOf": [
+          {
+            "metricName": "Connection Refused",
+            "metricNamespace": "Microsoft.Web/sites",
+            "operator": "GreaterThan",
+            "threshold": 0,
+            "timeAggregation": "Total",
+            "dimensions": [
+              {
+                "name": "SiteName",
+                "value": "myWebApp"
+              }
+            ],
+            "metricValue": 5
+          }
+        ]
+      }
+    }
+  }
+}

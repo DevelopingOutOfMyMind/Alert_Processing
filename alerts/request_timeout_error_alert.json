@@ -1,0 +1,50 @@
+{
+  "schemaId": "azureMonitorCommonAlertSchema",
+  "data": {
+    "essentials": {
+      "alertId": "/subscriptions/12345678-1234-1234-1234-123456789012/resourceGroups/myResourceGroup/providers/Microsoft.Web/sites/myWebApp",
+      "alertRule": "WebServiceTimeout",
+      "severity": "Sev2",
+      "signalType": "Metric",
+      "monitorCondition": "Fired",
+      "monitoringService": "Application Insights",
+      "alertTargetIDs": [
+        "/subscriptions/12345678-1234-1234-1234-123456789012/resourceGroups/myResourceGroup/providers/Microsoft.Web/sites/myWebApp"
+      ],
+      "originAlertId": "ijkl9012-3456-78mn-opqr-stuvwxyzabcd",
+      "firedDateTime": "2026-01-08T12:45:00Z",
+      "resolvedDateTime": "",
+      "description": "The web service is experiencing timeout errors, which may indicate high load or resource contention.",
+      "essentialsVersion": "1.0"
+    },
+    "alertContext": {
+      "properties": {
+        "errorCode": "ETIMEDOUT",
+        "errorMessage": "Request timed out after 30 seconds.",
+        "sourceIP": "192.168.1.101",
+        "destinationIP": "203.0.113.20",
+        "protocol": "HTTPS",
+        "timeoutDuration": "30 seconds",
+        "recommendation": "Check the load balancer and active connections. Consider scaling up resources or optimizing the service."
+      },
+      "condition": {
+        "allOf": [
+          {
+            "metricName": "Request Timeout",
+            "metricNamespace": "Microsoft.Web/sites",
+            "operator": "GreaterThan",
+            "threshold": 5,
+            "timeAggregation": "Total",
+            "dimensions": [
+              {
+                "name": "SiteName",
+                "value": "myWebApp"
+              }
+            ],
+            "metricValue": 12
+          }
+        ]
+      }
+    }
+  }
+}

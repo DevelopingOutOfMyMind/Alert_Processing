@@ -1,16 +1,117 @@
-# Dependencies
-node_modules/
+# Environment Variables & Secrets
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.*.local
+*.env
+secrets/
+secret.*
+credentials/
+credential.*
+
+# Python Virtual Environments
 venv/
 env/
-.env
-.venv
+.venv/
+.env/
+ENV/
+env.bak/
+venv.bak/
+.python-version
+.pyenv-version
 
-# IDE and Editor files
+# Python Runtime
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+pip-log.txt
+pip-delete-this-directory.txt
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+cover/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*.ipynb
+
+# IPython
+profile_default/
+ipython_config.py
+
+# Celery
+celerybeat-schedule
+celerybeat.pid
+
+# SageMath parsed files
+*.sage.py
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# pytype static type analyzer
+.pytype/
+
+# Cython debug symbols
+cython_debug/
+
+# IDEs and Editors
 .vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
 .idea/
 *.swp
 *.swo
 *~
+.project
+.metadata
+.classpath
+.settings/
+*.sublime-workspace
+*.sublime-project
 
 # OS generated files
 .DS_Store
@@ -20,63 +121,120 @@ env/
 .Trashes
 ehthumbs.db
 Thumbs.db
+desktop.ini
 
-# Build outputs
-dist/
-build/
-output/
-target/
-*.exe
-*.dll
-*.so
-*.dylib
-
-# Logs
+# Logs and Monitoring
 *.log
 logs/
+log/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
 
 # Runtime data
-pids
+pids/
 *.pid
 *.seed
 *.pid.lock
 
-# Configuration files with sensitive data
-config.json
-secrets.json
+# AI/ML Specific
+models/
+*.model
+*.pkl
+*.pickle
+*.h5
+*.onnx
+*.pt
+*.pth
+data/
+datasets/
+checkpoints/
+.wandb/
+mlruns/
+.mlflow/
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+*.db-shm
+*.db-wal
+
+# Certificate and Key files
 *.key
 *.pem
+*.crt
+*.cert
+*.p12
+*.pfx
+*.jks
+*.keystore
 
-# Python specific
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python
-pip-log.txt
-pip-delete-this-directory.txt
+# Configuration files with potential secrets
+config.json
+secrets.json
+settings.json
+local_settings.py
+local_config.py
+production_settings.py
+.secrets.baseline
 
-# Java specific
-*.class
-*.jar
-*.war
-*.ear
-*.nar
-hs_err_pid*
+# Docker
+.dockerignore
+Dockerfile.local
+docker-compose.override.yml
+.docker/
 
-# .NET specific
-bin/
-obj/
-*.user
-*.suo
-*.userosscache
-*.sln.docstates
+# Kubernetes
+*.kubeconfig
+kubeconfig
+.kube/
+k8s-secrets.yaml
+
+# Terraform
+*.tfstate
+*.tfstate.*
+*.tfvars
+.terraform/
+terraform.tfstate.d/
+
+# Cloud and Infrastructure
+.aws/
+.azure/
+.gcp/
+.terraform/
+terraform.tfvars
+
+# Monitoring and Observability
+.prometheus/
+.grafana/
+.jaeger/
+
+# Backup files
+*.bak
+*.backup
+*.old
+*.orig
 
 # Temporary files
 *.tmp
 *.temp
 temp/
 tmp/
+.tmp/
+
+# Archive files (unless specifically needed)
+*.zip
+*.tar.gz
+*.rar
+*.7z
+
+# Application specific
+alerts.db
+cache/
+.cache/
+storage/
+uploads/
+downloads/

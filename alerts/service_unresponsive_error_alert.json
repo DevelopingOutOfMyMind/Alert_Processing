@@ -1,0 +1,49 @@
+{
+  "schemaId": "azureMonitorCommonAlertSchema",
+  "data": {
+    "essentials": {
+      "alertId": "/subscriptions/12345678-1234-1234-1234-123456789012/resourceGroups/myResourceGroup/providers/Microsoft.Web/sites/myWebApp",
+      "alertRule": "WebServiceFrozen",
+      "severity": "Sev2",
+      "signalType": "Metric",
+      "monitorCondition": "Fired",
+      "monitoringService": "Application Insights",
+      "alertTargetIDs": [
+        "/subscriptions/12345678-1234-1234-1234-123456789012/resourceGroups/myResourceGroup/providers/Microsoft.Web/sites/myWebApp"
+      ],
+      "originAlertId": "mnop3456-7890-abcd-efgh-ijklmnopqrst",
+      "firedDateTime": "2026-01-08T13:15:00Z",
+      "resolvedDateTime": "",
+      "description": "The web service is frozen and unresponsive. This may be due to resource contention or a deadlock.",
+      "essentialsVersion": "1.0"
+    },
+    "alertContext": {
+      "properties": {
+        "errorCode": "WSFROZEN",
+        "errorMessage": "The web service is unresponsive and not processing requests.",
+        "sourceIP": "192.168.1.102",
+        "destinationIP": "203.0.113.30",
+        "protocol": "HTTPS",
+        "recommendation": "Restart the service using 'systemctl restart web-app'. If the issue persists, do not reboot the server; escalate to the Platform Team."
+      },
+      "condition": {
+        "allOf": [
+          {
+            "metricName": "Service Unresponsive",
+            "metricNamespace": "Microsoft.Web/sites",
+            "operator": "GreaterThan",
+            "threshold": 0,
+            "timeAggregation": "Total",
+            "dimensions": [
+              {
+                "name": "SiteName",
+                "value": "myWebApp"
+              }
+            ],
+            "metricValue": 1
+          }
+        ]
+      }
+    }
+  }
+}

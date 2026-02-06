@@ -1,0 +1,50 @@
+{
+  "schemaId": "azureMonitorCommonAlertSchema",
+  "data": {
+    "essentials": {
+      "alertId": "/subscriptions/12345678-1234-1234-1234-123456789012/resourceGroups/myResourceGroup/providers/Microsoft.Web/sites/myWebApp",
+      "alertRule": "HighMemoryUtilization",
+      "severity": "Sev2",
+      "signalType": "Metric",
+      "monitorCondition": "Fired",
+      "monitoringService": "Application Insights",
+      "alertTargetIDs": [
+        "/subscriptions/12345678-1234-1234-1234-123456789012/resourceGroups/myResourceGroup/providers/Microsoft.Web/sites/myWebApp"
+      ],
+      "originAlertId": "efgh5678-1234-90ab-cdef-ghijklmnopqr",
+      "firedDateTime": "2026-01-08T11:30:45Z",
+      "resolvedDateTime": "",
+      "description": "The web service is experiencing high memory utilization, which may lead to degraded performance or crashes.",
+      "essentialsVersion": "1.0"
+    },
+    "alertContext": {
+      "properties": {
+        "metricName": "Memory Utilization",
+        "metricValue": 95,
+        "threshold": 90,
+        "unit": "Percentage",
+        "instanceId": "web-app-instance-1",
+        "errorMessage": "Memory utilization has exceeded 90% threshold and is currently at 95%",
+        "recommendation": "Investigate memory usage and consider restarting the service or scaling up the instance."
+      },
+      "condition": {
+        "allOf": [
+          {
+            "metricName": "Memory Utilization",
+            "metricNamespace": "Microsoft.Web/sites",
+            "operator": "GreaterThan",
+            "threshold": 90,
+            "timeAggregation": "Average",
+            "dimensions": [
+              {
+                "name": "Instance",
+                "value": "web-app-instance-1"
+              }
+            ],
+            "metricValue": 95
+          }
+        ]
+      }
+    }
+  }
+}
