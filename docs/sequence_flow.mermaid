@@ -1,0 +1,96 @@
+sequenceDiagram
+    participant AG as Action Group
+    participant WH as Webhook Handler
+    participant LG as LangGraph Engine
+    participant COL as Alert Collector
+    participant VAL as Validator
+    participant PII as PII Detector
+    participant ANM as Anonymizer
+    participant CLS as AI Classifier
+    participant ENR as Log Enricher
+    participant LA as Log Analytics
+    participant DB as Database
+    participant CACHE as Redis Cache
+    participant SRE as SRE Agent
+
+    Note over AG,SRE: Alert Processing Sequence Flow
+    
+    %% Alert Ingestion
+    AG->>WH: 1. Send Raw Alert (JSON)
+    WH->>WH: 2. Validate Request Headers
+    WH->>LG: 3. Trigger Workflow
+    
+    %% Collection Phase
+    LG->>COL: 4. Start Collection Node
+    COL->>COL: 5. Parse Alert Data
+    COL->>VAL: 6. Forward to Validator
+    
+    %% Validation Phase
+    VAL->>VAL: 7. Validate Alert Schema
+    VAL->>CACHE: 8. Check for Duplicates
+    CACHE-->>VAL: 9. Duplicate Status
+    
+    alt Alert is Duplicate
+        VAL->>LG: 10a. Mark as Duplicate
+        LG->>DB: 10b. Log Duplicate Event
+    else Alert is Valid
+        VAL->>PII: 10c. Forward to PII Detector
+        
+        %% PII Detection Phase
+        PII->>PII: 11. Analyze Content for PII
+        PII->>PII: 12. Apply Detection Models
+        
+        alt PII Detected
+            PII->>ANM: 13a. Send to Anonymizer
+            ANM->>ANM: 13b. Apply Anonymization Rules
+            ANM->>ANM: 13c. Generate Anonymized Version
+            ANM->>CLS: 13d. Forward Anonymized Alert
+            Note over ANM: Sensitive data replaced<br/>with tokens
+        else No PII Detected
+            PII->>CLS: 13e. Forward Original Alert
+        end
+        
+        %% Classification Phase
+        CLS->>CLS: 14. Extract Features
+        CLS->>CLS: 15. Apply AI Models (GPT-4)
+        CLS->>CLS: 16. Determine Category & Urgency
+        CLS->>ENR: 17. Forward Classified Alert
+        
+        %% Enrichment Phase
+        ENR->>LA: 18. Query Log Analytics
+        Note over ENR,LA: KQL queries for<br/>related events
+        LA-->>ENR: 19. Return Log Data
+        ENR->>ENR: 20. Process & Correlate Data
+        ENR->>ENR: 21. Calculate Impact Score
+        
+        %% Storage Phase
+        ENR->>DB: 22. Store Processed Alert
+        ENR->>CACHE: 23. Cache Recent Alerts
+        
+        %% Monitoring & Metrics
+        par Monitoring
+            LG->>LG: Log Processing Steps
+        and
+            LG->>LG: Emit Processing Metrics
+        and
+            LG->>LG: Create Trace Spans
+        end
+        
+        %% SRE Integration
+        DB->>SRE: 24. Notify Alert Ready
+        SRE->>DB: 25. Query Processed Alerts
+        DB-->>SRE: 26. Return Alert Data
+        
+        %% Error Handling
+        alt Processing Error
+            LG->>LG: 27a. Increment Retry Count
+            alt Max Retries Exceeded
+                LG->>DB: 27b. Mark as Failed
+                LG->>SRE: 27c. Send Error Notification
+            else Retry Available
+                LG->>COL: 27d. Retry Processing
+            end
+        end
+    end
+    
+    Note over AG,SRE: End of Processing Flow

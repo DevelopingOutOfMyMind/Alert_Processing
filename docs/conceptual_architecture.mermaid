@@ -1,0 +1,93 @@
+graph TB
+    %% External Systems
+    AG[Action Group<br/>Alert Source] 
+    LA[Log Analytics<br/>Workspace]
+    SRE[SRE Agent<br/>Consumer]
+    
+    %% Main Application Layers
+    subgraph "Alert Processing System"
+        direction TB
+        
+        subgraph "Input Layer"
+            API[REST API<br/>FastAPI]
+            WH[Webhook Handler]
+        end
+        
+        subgraph "Processing Engine"
+            LG[LangGraph<br/>Workflow Engine]
+            
+            subgraph "Processing Nodes"
+                COL[Alert Collector]
+                VAL[Validator]
+                PII[PII Detector<br/>Presidio Analyzer]
+                ANM[Anonymizer<br/>Presidio Anonymizer]
+                CLS[Classifier<br/>AI Model]
+                ENR[Enricher<br/>Log Analytics]
+                AGG[Aggregator]
+            end
+        end
+        
+        subgraph "Storage Layer"
+            DB[(Database<br/>SQLite/PostgreSQL)]
+            CACHE[(Redis Cache)]
+            BLOB[(Blob Storage<br/>Azure)]
+        end
+        
+        subgraph "Monitoring & Observability"
+            LOG[Structured Logging]
+            MET[Metrics Collection]
+            TRC[Distributed Tracing]
+        end
+    end
+    
+    %% External Integrations
+    subgraph "AI Services"
+        OAI[OpenAI<br/>GPT-4]
+        AZ_AI[Azure AI<br/>Services]
+    end
+    
+    %% Data Flow
+    AG -->|Raw Alerts| WH
+    WH --> API
+    API --> LG
+    
+    LG --> COL
+    COL --> VAL
+    VAL --> PII
+    PII -->|Has PII| ANM
+    PII -->|No PII| CLS
+    ANM --> CLS
+    CLS --> ENR
+    ENR --> AGG
+    AGG --> DB
+    
+    %% External Service Connections
+    ENR <==> LA
+    CLS <==> OAI
+    PII <==> AZ_AI
+    
+    %% Storage Connections
+    COL --> CACHE
+    ENR --> BLOB
+    LG --> DB
+    
+    %% Monitoring Connections
+    LG --> LOG
+    LG --> MET
+    LG --> TRC
+    
+    %% Output
+    DB -->|Processed Alerts| SRE
+    
+    %% Styling
+    classDef external fill:#e1f5fe,stroke:#01579b,stroke-width:2px
+    classDef processing fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
+    classDef storage fill:#e8f5e8,stroke:#1b5e20,stroke-width:2px
+    classDef monitoring fill:#fff3e0,stroke:#e65100,stroke-width:2px
+    classDef ai fill:#fce4ec,stroke:#880e4f,stroke-width:2px
+    
+    class AG,LA,SRE external
+    class LG,COL,VAL,PII,ANM,CLS,ENR,AGG processing
+    class DB,CACHE,BLOB storage
+    class LOG,MET,TRC monitoring
+    class OAI,AZ_AI ai
